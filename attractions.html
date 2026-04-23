@@ -3262,24 +3262,29 @@ Buy 1 ticket get second ticket 1/2 Off
   chips.forEach(function(btn){
     btn.addEventListener('click', function(){
       var tag = btn.dataset.tag;
-      if(tag === ''){
-        active.clear();
-        chips.forEach(function(b){ b.setAttribute('aria-pressed', b === allBtn ? 'true' : 'false'); });
-      } else {
-        if(active.has(tag)){
-          active.delete(tag);
-          btn.setAttribute('aria-pressed','false');
-        } else {
-          active.add(tag);
-          btn.setAttribute('aria-pressed','true');
-        }
-        allBtn.setAttribute('aria-pressed', active.size === 0 ? 'true' : 'false');
-      }
+      try { localStorage.setItem('vacdash:v1:filter', tag); } catch(e){}
+      active.clear();
+      if (tag !== '') active.add(tag);
+      chips.forEach(function(b){ b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
       refilter();
       updateToggleBtn();
       closePopover();
     });
   });
+
+  /* Restore shared filter state from localStorage */
+  try {
+    var saved = localStorage.getItem('vacdash:v1:filter');
+    var targetChip = null;
+    if (saved != null) {
+      chips.forEach(function(c){ if (c.dataset.tag === saved) targetChip = c; });
+    }
+    if (!targetChip) targetChip = allBtn;
+    chips.forEach(function(c){ c.setAttribute('aria-pressed', c === targetChip ? 'true' : 'false'); });
+    active.clear();
+    var initTag = targetChip.dataset.tag;
+    if (initTag !== '') active.add(initTag);
+  } catch(e){}
 
   refilter();
   updateToggleBtn();

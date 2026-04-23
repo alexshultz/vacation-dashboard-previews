@@ -796,9 +796,9 @@ h3 { font-size: 19px; font-weight: 700; }
 .qp-nav-btn {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 10px 16px; border-radius: var(--radius-pill);
-  background: var(--status-yes); color: white;
+  background: transparent; color: var(--status-yes);
   font-family: var(--font-display); font-weight: 700; font-size: 13px;
-  border: none; cursor: pointer; text-decoration: none;
+  border: 1px solid var(--status-yes); cursor: pointer; text-decoration: none;
   min-height: 44px; white-space: nowrap;
 }
 .qp-nav-btn:hover { opacity: 0.9; }

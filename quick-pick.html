@@ -171,26 +171,21 @@ body.qp-page .deck-stage {
 /* Filter popover open/close + chip selection */
 (function(){
   'use strict';
-  var FILTER_KEY = 'vacdash:qp:filter';
   var toggleBtn = document.getElementById('filter-toggle');
   var popover = document.getElementById('filter-popover');
   var chips = document.querySelectorAll('.filter-strip .chip');
   var allBtn = document.querySelector('.chip[data-tag=""]');
   if (!toggleBtn || !popover) return;
 
-  /* Restore filter state from sessionStorage */
+  /* Restore shared filter state from localStorage */
   try {
-    var saved = sessionStorage.getItem(FILTER_KEY);
-    if (saved) {
-      var selected = saved.split('+').filter(Boolean);
-      if (selected.length === 0) {
-        chips.forEach(function(c){ c.setAttribute('aria-pressed', c === allBtn ? 'true' : 'false'); });
-      } else {
-        chips.forEach(function(c){
-          c.setAttribute('aria-pressed', selected.indexOf(c.dataset.tag) !== -1 ? 'true' : 'false');
-        });
-      }
+    var saved = localStorage.getItem('vacdash:v1:filter');
+    var targetChip = null;
+    if (saved != null) {
+      chips.forEach(function(c){ if (c.dataset.tag === saved) targetChip = c; });
     }
+    if (!targetChip) targetChip = allBtn;
+    chips.forEach(function(c){ c.setAttribute('aria-pressed', c === targetChip ? 'true' : 'false'); });
   } catch(e){}
 
   function openPopover() { popover.classList.add('open'); toggleBtn.setAttribute('aria-expanded', 'true'); }
@@ -208,43 +203,29 @@ body.qp-page .deck-stage {
     if (e.key === 'Escape' && isOpen()) { closePopover(); toggleBtn.focus(); }
   });
 
-  function persistFilter() {
-    var pressed = Array.prototype.slice.call(
-      document.querySelectorAll('.filter-strip .chip[aria-pressed="true"]')
-    ).map(function(c){ return c.dataset.tag || ''; }).filter(Boolean);
-    try { sessionStorage.setItem(FILTER_KEY, pressed.sort().join('+')); } catch(e){}
-    /* Also update the toggle button label */
-    var btn = document.getElementById('filter-toggle');
-    if (btn) {
-      if (pressed.length > 0) {
-        btn.textContent = 'Filtered \u25cf';
-        btn.classList.add('is-filtered');
-      } else {
-        btn.textContent = 'Filter \u25be';
-        btn.classList.remove('is-filtered');
-      }
+  function updateToggleLabel() {
+    var anyPressed = document.querySelectorAll('.filter-strip .chip[aria-pressed="true"]:not([data-tag=""])').length > 0;
+    if (anyPressed) {
+      toggleBtn.textContent = 'Filtered \u25cf';
+      toggleBtn.classList.add('is-filtered');
+    } else {
+      toggleBtn.textContent = 'Filter \u25be';
+      toggleBtn.classList.remove('is-filtered');
     }
   }
 
   chips.forEach(function(btn){
     btn.addEventListener('click', function(){
       var tag = btn.dataset.tag;
-      if (tag === '') {
-        chips.forEach(function(b){ b.setAttribute('aria-pressed', b === allBtn ? 'true' : 'false'); });
-      } else {
-        var pressed = btn.getAttribute('aria-pressed') === 'true';
-        btn.setAttribute('aria-pressed', pressed ? 'false' : 'true');
-        /* Sync All button */
-        var anyPressed = document.querySelectorAll('.filter-strip .chip[aria-pressed="true"]:not([data-tag=""])').length > 0;
-        allBtn.setAttribute('aria-pressed', anyPressed ? 'false' : 'true');
-      }
-      persistFilter();
+      try { localStorage.setItem('vacdash:v1:filter', tag); } catch(e){}
+      chips.forEach(function(b){ b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+      updateToggleLabel();
       closePopover();
     });
   });
 
   /* Initialize toggle label from restored state */
-  persistFilter();
+  updateToggleLabel();
 })();
 </script>
 <script>
