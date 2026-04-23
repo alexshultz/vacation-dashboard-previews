@@ -3830,6 +3830,7 @@ Buy 1 ticket get second ticket 1/2 Off
 /* Quick Pick mode -- swipe deck on attractions.html */
 (function(){
   'use strict';
+  console.log('[QP] script init');
 
   var MODE_KEY = 'vacdash:v1:browse-mode';
   var PROGRESS_KEY = 'vacdash:swipe:progress';
@@ -4261,6 +4262,7 @@ Buy 1 ticket get second ticket 1/2 Off
       currentDeck = buildDeck();
       renderStage();
     }
+    console.log('[QP] setMode called:', mode, 'catalogGrid hidden:', catalogGrid.hidden, 'deckWrap hidden:', deckWrap.hidden);
   }
   modeBrowseBtn.addEventListener('click', function(){ setMode('browse', true); });
   modeQpBtn.addEventListener('click',     function(){ setMode('quickpick', true); });

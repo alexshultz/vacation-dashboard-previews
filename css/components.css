@@ -152,6 +152,7 @@ h3 { font-size: 19px; font-weight: 700; }
   display: grid; gap: 14px;
   grid-template-columns: repeat(2, 1fr);
 }
+.catalog-grid[hidden] { display: none; }
 @media (min-width: 720px) { .catalog-grid { grid-template-columns: repeat(3, 1fr); gap: 18px; } }
 @media (min-width: 1024px) { .catalog-grid { grid-template-columns: repeat(4, 1fr); } }
 
