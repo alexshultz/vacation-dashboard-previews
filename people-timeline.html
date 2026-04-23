@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" data-mode="system">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+
+<title>People -- Branson &#x27;26</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700;800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/themes/trail.css">
+<link rel="stylesheet" href="css/components.css">
+<script>/* Theme loader -- inline to prevent flash-of-wrong-theme */
+(function(){
+  var m = localStorage.getItem('vacdash:v1:mode') || 'system';
+  document.documentElement.setAttribute('data-mode', m);
+})();
+</script>
+<style>
+.attendee-link {
+  display: inline-block;
+  padding: 6px 0;
+  color: inherit;
+  text-decoration: none;
+  min-height: 36px;
+  line-height: 1.5;
+}
+.attendee-link:hover { color: var(--status-wishlist); text-decoration: underline; }
+</style>
+</head>
+<body class="bg-zinc-950 text-zinc-100 p-4 max-w-2xl mx-auto">
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="site-logo" href="index.html">Branson '26</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="attractions.html" class="nav-link">Activities</a>
+      <a href="wishlist.html" class="nav-link">Wishlist</a>
+      <a href="suggested.html" class="nav-link">Suggested</a>
+      <a href="event-timeline.html" class="nav-link">Timeline</a>
+      <a href="people-timeline.html" class="nav-link" aria-current="page">People</a>
+    </nav>
+    <a class="header-profile-btn" href="profile.html" aria-label="Profile" id="profile-btn"><span aria-hidden="true">👤</span><span class="profile-nudge-dot" aria-hidden="true"></span></a>
+    <button class="theme-toggle" aria-label="Toggle dark mode" onclick="(function(){var modes=['system','light','dark'];var m=document.documentElement.getAttribute('data-mode')||'system';var next=modes[(modes.indexOf(m)+1)%3];document.documentElement.setAttribute('data-mode',next);localStorage.setItem('vacdash:v1:mode',next);})()">☀️</button>
+  </div>
+</header>
+<nav class="bottom-tabs" aria-label="Main navigation">
+  <a href="index.html" class="tab" aria-label="Home">🏠</a>
+  <a href="attractions.html" class="tab" aria-label="Activities">🎡</a>
+  <a href="wishlist.html" class="tab" aria-label="Wishlist">♡</a>
+  <a href="suggested.html" class="tab" aria-label="Suggested">💡</a>
+  <a href="event-timeline.html" class="tab" aria-label="Timeline">📅</a>
+  <a href="people-timeline.html" class="tab" aria-current="page" aria-label="People">👥</a>
+</nav>
+    <div class="bg-zinc-900 border-b border-zinc-700 px-4 py-3 mb-6">
+      <div class="max-w-2xl mx-auto flex items-center justify-between">
+        <div class="font-bold text-emerald-400 text-xl">Branson 2026</div>
+        <div class="flex gap-2 text-sm font-medium">
+          <a href="index.html" class="px-5 py-2 rounded-2xl hover:bg-zinc-800 data-[active=true]:bg-emerald-900 data-[active=true]:text-emerald-400">Events</a>
+          <a href="people-timeline.html" data-active="true" class="px-5 py-2 rounded-2xl hover:bg-zinc-800 data-[active=true]:bg-emerald-900 data-[active=true]:text-emerald-400">People</a>
+          <a href="event-timeline.html" class="px-5 py-2 rounded-2xl hover:bg-zinc-800 data-[active=true]:bg-emerald-900 data-[active=true]:text-emerald-400">Timeline</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-emerald-400">People &amp; Timeline</h1>
+        <p class="text-zinc-400">Arrival and Departure Windows</p>
+    </div>
+
+    <div class="bg-zinc-900 rounded-3xl p-6 mb-8">
+        <div id="timeline-header" class="timeline mb-5"></div>
+        <div id="timeline-bars" class="space-y-6"></div>
+    </div>
+
+    <div class="bg-zinc-900 rounded-3xl p-6">
+        <h2 class="font-semibold mb-4 text-zinc-300">Projected Attendees (<span id="attendee-count">26</span>)</h2>
+        <div id="attendee-list" class="grid grid-cols-2 gap-x-6 gap-y-1.5 text-sm text-zinc-400"></div>
+    </div>
+
+    <p class="text-center text-zinc-500 text-xs mt-12">
+        People page • Data from Test Vacation Checklist.md • iMessage is primary
+    </p>
+
+    <script>
+        function loadData() {
+            const days = ['Fri 22', 'Sat 23', 'Sun 24', 'Mon 25', 'Tue 26', 'Wed 27', 'Thu 28', 'Fri 29'];
+            document.getElementById('timeline-header').innerHTML = days.map(d => 
+                `<div class="day">${d}</div>`
+            ).join('');
+
+            const timelineDiv = document.getElementById('timeline-bars');
+            const order = ['most_people', 'ashlyn', 'bee', 'kevin', 'evie_ray'];
+            const colors = ['#4ade80', '#60a5fa', '#fb923c', '#a78bfa', '#c084fc'];
+            const names = ['Most People', 'Ashlyn', 'Bee', 'Kevin', 'Evie & Ray'];
+            const labels = ['Full Week (22-29)', 'Arrives Sat 23', 'Departs Tue 26', 'Departs Wed 27 • ATV early', 'Full Week'];
+            const starts = [22, 23, 22, 22, 22];
+            const ends = [29, 29, 26, 27, 29];
+
+            let html = '';
+            order.forEach((key, i) => {
+                const startDay = starts[i];
+                const endDay = ends[i];
+                const widthPct = ((endDay - startDay + 1) / 8) * 100;
+                const marginLeft = ((startDay - 22) / 8) * 100;
+
+                html += `
+                    <div>
+                        <div class="flex justify-between text-sm mb-1.5">
+                            <span class="font-medium" style="color: ${colors[i]}">${names[i]}</span>
+                            <span class="text-xs" style="color: ${colors[i]}">${labels[i]}</span>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar" style="width: ${widthPct}%; margin-left: ${marginLeft}%; background: ${colors[i]}"></div>
+                        </div>
+                    </div>
+                `;
+            });
+            timelineDiv.innerHTML = html;
+
+            const attendees = [
+                "Adrian (10)", "Alex (57)", "Ashlyn (28)", "Bee (19)", "Brian (55)", "Bug (9)", "David (18)",
+                "Dez (26)", "Evie (74)", "Georgie (6)", "Jackson (12)", "Jacob (32)", "Jordan (45)", "Josh (45)",
+                "Kevin (29)", "Lucy (16)", "McKinley (16)", "Mel (54)", "Mycah (21)", "Natalie (19)", "Rachel (30)",
+                "Ray (74)", "Simran (24)", "Skylar (29)", "Tayden (21)", "Zach (25)"
+            ];
+            document.getElementById('attendee-count').textContent = attendees.length;
+            document.getElementById('attendee-list').innerHTML = attendees.map(a => {
+                const name = a.split(' (')[0];
+                const href = 'profile.html?name=' + encodeURIComponent(name);
+                return `<div><a href="${href}" class="attendee-link">${a}</a></div>`;
+            }).join('');
+        }
+
+        window.onload = loadData;
+    </script>
+<script>window.addEventListener('storage',function(e){if(e.key==='vacdash:v1:mode')document.documentElement.setAttribute('data-mode',e.newValue||'system')});</script>
+<script>
+(function(){
+  function syncBadge(){
+    var btn = document.getElementById('profile-btn');
+    if (!btn) return;
+    var u = ''; try { u = localStorage.getItem('vacdash:v1:user') || ''; } catch(e){}
+    btn.setAttribute('data-unset', u ? 'false' : 'true');
+  }
+  syncBadge();
+  window.addEventListener('storage', function(e){ if (e.key === 'vacdash:v1:user') syncBadge(); });
+})();
+</script>
+</body>
+</html>
