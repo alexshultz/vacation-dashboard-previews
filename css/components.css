@@ -1101,3 +1101,41 @@ h3 { font-size: 19px; font-weight: 700; }
   border: 1.5px solid color-mix(in srgb, var(--warn) 35%, var(--color-line));
   margin-top: var(--sp-3);
 }
+
+/* ── Theme Picker Grid ─────────────────────────────────────────── */
+.theme-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 10px;
+  margin-top: 8px;
+}
+.theme-swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 4px;
+  background: none;
+  border: 2px solid var(--color-line);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 150ms, transform 100ms;
+  min-height: 44px;
+}
+.theme-swatch:hover { border-color: var(--status-wishlist); transform: scale(1.04); }
+.theme-swatch--active,
+.theme-swatch[aria-checked="true"] { border-color: var(--status-yes); background: color-mix(in srgb, var(--status-yes) 8%, transparent); }
+.theme-swatch__preview {
+  width: 44px; height: 30px;
+  border-radius: 8px;
+  border: 2px solid;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.theme-swatch__dot {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.5);
+}
+.theme-swatch__emoji { font-size: 16px; line-height: 1; }
+.theme-swatch__label { font-size: 11px; color: var(--color-ink-dim); text-align: center; line-height: 1.2; font-weight: 500; }
