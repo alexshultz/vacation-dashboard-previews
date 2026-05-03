@@ -54,6 +54,7 @@
   /* Sub-page aliases: these filenames highlight a parent nav/tab entry */
   var NAV_ALIASES = {
     'shows.html': 'attractions.html',
+    'admin.html': null,
   };
 
   /* ── Active page detection ───────────────────────────────────────────────── */
@@ -244,6 +245,29 @@
         '}';
       document.head.appendChild(styleEl);
     }
+
+    // Load admin overlay on every page that uses site.js
+    (function() {
+      // Inject Supabase CDN if not already loaded (pages without CDN <script> in <head>)
+      if (!window.supabase) {
+        var sbScript = document.createElement('script');
+        sbScript.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+        sbScript.async = false;
+        document.head.appendChild(sbScript);
+      }
+      var overlayScript = document.createElement('script');
+      overlayScript.src = (function() {
+        var scripts = document.getElementsByTagName('script');
+        for (var i = 0; i < scripts.length; i++) {
+          if (scripts[i].src && scripts[i].src.indexOf('site.js') !== -1) {
+            return scripts[i].src.replace('site.js', 'admin-overlay.js');
+          }
+        }
+        return 'js/admin-overlay.js';
+      })();
+      overlayScript.async = false;
+      document.head.appendChild(overlayScript);
+    })();
   }
 
   /* ── Hamburger toggle ────────────────────────────────────────────────────── */
